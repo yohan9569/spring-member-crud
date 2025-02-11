@@ -1,6 +1,7 @@
 package com.example.spring_member_crud.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,13 +23,13 @@ public enum JobType {
     String name;
     List<String> titles;
 
-    @JsonCreator
-    public static JobType deserialize(String job) {
+    @JsonCreator(mode = Mode.DELEGATING) //단일 속성, 단일 단순 값 json을 받음.
+    public static JobType deserialize(String name) { //json 속성명이 name 아녀도 된다.
         for (JobType each : JobType.values()) {
-            if (each.getName().equals(job)) {
+            if (each.getName().equals(name)) {
                 return each;
             }
         }
-        throw new RuntimeException("JobType 내 해당하는 Enum 이 존재하지 않습니다. name : " + job);
+        throw new RuntimeException("JobType 내 해당하는 Enum 이 존재하지 않습니다. name : " + name);
     }
 }
