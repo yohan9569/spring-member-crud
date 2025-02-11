@@ -5,6 +5,7 @@ import com.example.spring_member_crud.controller.dto.MemberPatchRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberResponseDto;
 import com.example.spring_member_crud.repository.entity.Member;
 import com.example.spring_member_crud.repository.IMemberRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,9 @@ public class MemberService {
     public MemberResponseDto create(MemberCreateRequestDto request) {
         Integer id = repository.generateId();
         Member requested = request.toEntity(id);
+        requested.setCreateAt(LocalDateTime.now());
         Member created = repository.create(requested);
+        //Member member = userRepository.save(new Member(id, name, age, job, specialty, LocalDateTime.now())); // 애런 방식
         return MemberResponseDto.from(created);
     }
 

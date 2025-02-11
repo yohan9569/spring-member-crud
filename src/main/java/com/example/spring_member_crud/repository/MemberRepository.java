@@ -2,6 +2,7 @@ package com.example.spring_member_crud.repository;
 
 import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.repository.entity.Member;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,19 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 @Repository
 public class MemberRepository implements IMemberRepository {
-    private final Map<Integer, Member> memberMap;
-    private Integer nextId;
+    private static final Map<Integer, Member> memberMap;
+    private Integer nextId = 4;
 
-    public MemberRepository() {
-        this.memberMap = new HashMap<>();
-        this.nextId = 0;
+//    public MemberRepository() {
+//        this.memberMap = new HashMap<>();
+//        this.nextId = 0;
+//    }
+
+    static {
+        memberMap = new HashMap<>();
+        memberMap.put(1, new Member(1, "Aaron", 10, "Developer", "Backend", LocalDateTime.now().plusMinutes(10)));
+        memberMap.put(2, new Member(2, "Baron", 20, "Developer", "Frontend", LocalDateTime.now().plusMinutes(20)));
+        memberMap.put(3, new Member(3, "Caron", 30, "Engineer", "DevOps/SRE", LocalDateTime.now().plusMinutes(30)));
     }
 
     public Integer generateId() {
