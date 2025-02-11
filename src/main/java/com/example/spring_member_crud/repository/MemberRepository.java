@@ -1,5 +1,6 @@
 package com.example.spring_member_crud.repository;
 
+import com.example.spring_member_crud.controller.dto.JobType;
 import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.repository.entity.Member;
 import java.time.LocalDateTime;
@@ -23,9 +24,9 @@ public class MemberRepository implements IMemberRepository {
 
     static {
         memberMap = new HashMap<>();
-        memberMap.put(1, new Member(1, "Aaron", 10, "Developer", "Backend", LocalDateTime.now().plusMinutes(10)));
-        memberMap.put(2, new Member(2, "Baron", 20, "Developer", "Frontend", LocalDateTime.now().plusMinutes(20)));
-        memberMap.put(3, new Member(3, "Caron", 30, "Engineer", "DevOps/SRE", LocalDateTime.now().plusMinutes(30)));
+        memberMap.put(1, new Member(1, "Aaron", 10, JobType.DEVELOPER, "Backend", LocalDateTime.now().plusMinutes(10)));
+        memberMap.put(2, new Member(2, "Baron", 20, JobType.ENGINEER, "Frontend", LocalDateTime.now().plusMinutes(20)));
+        memberMap.put(3, new Member(3, "Caron", 30, JobType.DEVELOPER, "DevOps/SRE", LocalDateTime.now().plusMinutes(30)));
     }
 
     public Integer generateId() {

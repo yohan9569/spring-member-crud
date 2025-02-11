@@ -7,7 +7,7 @@ import lombok.Setter;
 public class MemberCreateRequestDto {
     private String name;
     private Integer age;
-    private String job;
+    private JobType job;
     private String email;
 
     public Member toEntity(Integer id) {

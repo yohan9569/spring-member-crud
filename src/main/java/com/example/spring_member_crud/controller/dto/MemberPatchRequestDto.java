@@ -10,7 +10,7 @@ import lombok.Setter;
 public class MemberPatchRequestDto {
     private String name;
     private Integer age;
-    private String job;
+    private JobType job;
     private String email;
 
     public Member updateEntity(Member member) {

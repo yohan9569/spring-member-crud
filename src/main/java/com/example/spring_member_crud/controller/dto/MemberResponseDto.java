@@ -23,7 +23,7 @@ public class MemberResponseDto {
     private String name;
     @JsonIgnore //JSON 미노출 프로퍼티(필드)
     private Integer age;
-    private String job;
+    private JobType job;
     private String email;
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateFormat
