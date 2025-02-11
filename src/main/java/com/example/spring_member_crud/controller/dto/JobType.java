@@ -18,7 +18,11 @@ public enum JobType {
     DEVELOPER("Developer", Arrays.asList("Frontend", "Backend")),
     ENGINEER("Engineer", Arrays.asList("DevOps", "SRE"));
 
-    @JsonValue //Enum 내 특정 필드만 출력
     String name;
     List<String> titles;
+
+    @JsonValue //특정 메서드 결과를 출력
+    public String serialize() {
+        return String.format("명칭 : %s | 종류 : %s", this.name, titles.toString());
+    }
 }
