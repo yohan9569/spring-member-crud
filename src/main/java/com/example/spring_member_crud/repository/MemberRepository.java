@@ -1,9 +1,11 @@
 package com.example.spring_member_crud.repository;
 
+import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.repository.entity.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +33,8 @@ public class MemberRepository implements IMemberRepository {
     }
 
     public Member readMember(Integer id) {
-        return memberMap.get(id);
+        return Optional.ofNullable(memberMap.get(id))
+            .orElseThrow(() -> new MemberNotFoundException(id));
     }
 
     public List<Member> readAllMembers() {

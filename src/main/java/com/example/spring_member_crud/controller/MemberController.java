@@ -3,8 +3,12 @@ package com.example.spring_member_crud.controller;
 import com.example.spring_member_crud.controller.dto.MemberCreateRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberPatchRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberResponseDto;
+import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.service.MemberService;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -30,8 +35,24 @@ public class MemberController {
     }
 
     @GetMapping(value = "/{id}")
-    public MemberResponseDto getMemberById(@PathVariable Integer id) {
-        return memberService.getMemberById(id);
+    public ResponseEntity<MemberResponseDto> getMemberById(@PathVariable Integer id) {
+        try {
+            MemberResponseDto member = memberService.getMemberById(id);
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(member);
+        } catch (MemberNotFoundException e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
+        }
+
     }
 
     @GetMapping(value="")
