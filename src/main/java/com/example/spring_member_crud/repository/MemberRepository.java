@@ -43,7 +43,7 @@ public class MemberRepository implements IMemberRepository {
 
     public Member readMember(Integer id) {
         return Optional.ofNullable(memberMap.get(id))
-            .orElseThrow(() -> new MemberNotFoundException(id));
+            .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다. id : " + id));
     }
 
     public List<Member> readAllMembers() {
