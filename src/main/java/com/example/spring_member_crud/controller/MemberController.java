@@ -6,9 +6,11 @@ import com.example.spring_member_crud.controller.dto.MemberResponseDto;
 import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.service.MemberService;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,8 +32,23 @@ public class MemberController {
     }
 
     @PostMapping(value = "")
-    public MemberResponseDto create(@RequestBody MemberCreateRequestDto dto) {
-        return memberService.create(dto);
+    public ResponseEntity<MemberResponseDto> create(@RequestBody @Validated MemberCreateRequestDto dto) {
+        try {
+            MemberResponseDto member = memberService.create(dto);
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(member);
+        } catch (NoSuchElementException e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+        } catch (IllegalArgumentException e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(null);
+        }
     }
 
     @GetMapping(value = "/{id}")
@@ -41,18 +58,17 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(member);
-        } catch (MemberNotFoundException e) {
+        } catch (NoSuchElementException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(null);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(null);
         }
-
     }
 
     @GetMapping(value="")
