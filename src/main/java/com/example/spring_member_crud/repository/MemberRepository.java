@@ -26,7 +26,8 @@ public class MemberRepository implements IMemberRepository {
         memberMap = new HashMap<>();
         memberMap.put(1, new Member(1, "Aaron", 10, JobType.DEVELOPER, "Backend", LocalDateTime.now().plusMinutes(10)));
         memberMap.put(2, new Member(2, "Baron", 20, JobType.ENGINEER, "Frontend", LocalDateTime.now().plusMinutes(20)));
-        memberMap.put(3, new Member(3, "Caron", 30, JobType.DEVELOPER, "DevOps/SRE", LocalDateTime.now().plusMinutes(30)));
+        memberMap.put(3,
+            new Member(3, "Caron", 30, JobType.DEVELOPER, "DevOps/SRE", LocalDateTime.now().plusMinutes(30)));
     }
 
     public Integer generateId() {
@@ -43,7 +44,7 @@ public class MemberRepository implements IMemberRepository {
 
     public Member readMember(Integer id) {
         return Optional.ofNullable(memberMap.get(id))
-            .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다. id : " + id));
+            .orElseThrow(() -> new MemberNotFoundException(id));
     }
 
     public List<Member> readAllMembers() {

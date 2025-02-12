@@ -38,7 +38,7 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(member);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | MemberNotFoundException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -63,7 +63,7 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(member);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | MemberNotFoundException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -81,12 +81,12 @@ public class MemberController {
         }
     }
 
-    @GetMapping(value="")
+    @GetMapping(value = "")
     public List<MemberResponseDto> getAllMembers() {
         return memberService.getAllMembers();
     }
 
-    @PatchMapping(value="/{id}")
+    @PatchMapping(value = "/{id}")
     public MemberResponseDto updateMember(@PathVariable Integer id, @ModelAttribute MemberPatchRequestDto dto) {
         return memberService.updateMember(id, dto);
     }
