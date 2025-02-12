@@ -3,7 +3,9 @@ package com.example.spring_member_crud.controller;
 import com.example.spring_member_crud.controller.dto.MemberCreateRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberPatchRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberResponseDto;
+import com.example.spring_member_crud.controller.dto.common.BaseResponse;
 import com.example.spring_member_crud.exception.CustomException;
+import com.example.spring_member_crud.exception.ExceptionType;
 import com.example.spring_member_crud.service.MemberService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -31,42 +33,34 @@ public class MemberController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<MemberResponseDto> create(@RequestBody @Validated MemberCreateRequestDto dto) {
+    public BaseResponse<MemberResponseDto> create(@RequestBody @Validated MemberCreateRequestDto dto) {
         try {
             MemberResponseDto member = memberService.create(dto);
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(member);
+            return BaseResponse.of(true, null, null, member);
         } catch (CustomException e) {
             log.warn(e.getMessage(), e); //Exception 예외 처리에서 가장 중요한것은 Logging 로깅
-            return ResponseEntity
-                .status(e.getType().getStatus())
-                .body(null);
+            return BaseResponse.of(false, e.getType().getType(), e.getType().getDesc(), null);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
-            return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(null);
+            return BaseResponse.of(false,
+                ExceptionType.UNCLASSIFIED_ERROR.getType(),
+                ExceptionType.UNCLASSIFIED_ERROR.getDesc(), null);
         }
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<MemberResponseDto> getMemberById(@PathVariable Integer id) {
+    public BaseResponse<MemberResponseDto> getMemberById(@PathVariable Integer id) {
         try {
             MemberResponseDto member = memberService.getMemberById(id);
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(member);
+            return BaseResponse.of(true, null, null, member);
         } catch (CustomException e) {
             log.warn(e.getMessage(), e);
-            return ResponseEntity
-                .status(e.getType().getStatus())
-                .body(null);
+            return BaseResponse.of(false, e.getType().getType(), e.getType().getDesc(), null);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
-            return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(null);
+            return BaseResponse.of(false,
+                ExceptionType.UNCLASSIFIED_ERROR.getType(),
+                ExceptionType.UNCLASSIFIED_ERROR.getDesc(), null);
         }
     }
 
