@@ -48,6 +48,11 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(null);
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
         }
     }
 
@@ -67,6 +72,11 @@ public class MemberController {
             log.warn(e.getMessage(), e);
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(null);
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(null);
         }
     }
