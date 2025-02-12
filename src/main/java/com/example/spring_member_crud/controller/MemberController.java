@@ -4,10 +4,8 @@ import com.example.spring_member_crud.controller.dto.MemberCreateRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberPatchRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberResponseDto;
 import com.example.spring_member_crud.exception.CustomException;
-import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.service.MemberService;
 import java.util.List;
-import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +38,7 @@ public class MemberController {
                 .status(HttpStatus.OK)
                 .body(member);
         } catch (CustomException e) {
-            log.warn(e.getMessage(), e);
+            log.warn(e.getMessage(), e); //Exception 예외 처리에서 가장 중요한것은 Logging 로깅
             return ResponseEntity
                 .status(e.getType().getStatus())
                 .body(null);
