@@ -3,6 +3,7 @@ package com.example.spring_member_crud.controller;
 import com.example.spring_member_crud.controller.dto.MemberCreateRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberPatchRequestDto;
 import com.example.spring_member_crud.controller.dto.MemberResponseDto;
+import com.example.spring_member_crud.exception.CustomException;
 import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.service.MemberService;
 import java.util.List;
@@ -38,15 +39,10 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(member);
-        } catch (NoSuchElementException | MemberNotFoundException e) {
+        } catch (CustomException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(null);
-        } catch (IllegalArgumentException e) {
-            log.warn(e.getMessage(), e);
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(e.getType().getStatus())
                 .body(null);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
@@ -63,15 +59,10 @@ public class MemberController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(member);
-        } catch (NoSuchElementException | MemberNotFoundException e) {
+        } catch (CustomException e) {
             log.warn(e.getMessage(), e);
             return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(null);
-        } catch (IllegalArgumentException e) {
-            log.warn(e.getMessage(), e);
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(e.getType().getStatus())
                 .body(null);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);

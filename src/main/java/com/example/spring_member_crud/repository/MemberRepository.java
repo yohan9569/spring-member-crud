@@ -1,6 +1,8 @@
 package com.example.spring_member_crud.repository;
 
 import com.example.spring_member_crud.controller.dto.JobType;
+import com.example.spring_member_crud.exception.CustomException;
+import com.example.spring_member_crud.exception.ExceptionType;
 import com.example.spring_member_crud.exception.MemberNotFoundException;
 import com.example.spring_member_crud.repository.entity.Member;
 import java.time.LocalDateTime;
@@ -44,7 +46,7 @@ public class MemberRepository implements IMemberRepository {
 
     public Member readMember(Integer id) {
         return Optional.ofNullable(memberMap.get(id))
-            .orElseThrow(() -> new MemberNotFoundException(id));
+            .orElseThrow(() -> new CustomException(ExceptionType.USER_NOT_FOUND, id));
     }
 
     public List<Member> readAllMembers() {
