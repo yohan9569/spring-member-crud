@@ -36,15 +36,13 @@ public class MemberController {
     public BaseResponse<MemberResponseDto> create(@RequestBody @Validated MemberCreateRequestDto dto) {
         try {
             MemberResponseDto member = memberService.create(dto);
-            return BaseResponse.of(true, null, null, member);
+            return BaseResponse.success(member);
         } catch (CustomException e) {
             log.warn(e.getMessage(), e); //Exception 예외 처리에서 가장 중요한것은 Logging 로깅
-            return BaseResponse.of(false, e.getType().getType(), e.getType().getDesc(), null);
+            return BaseResponse.failure(e.getType());
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
-            return BaseResponse.of(false,
-                ExceptionType.UNCLASSIFIED_ERROR.getType(),
-                ExceptionType.UNCLASSIFIED_ERROR.getDesc(), null);
+            return BaseResponse.failure(ExceptionType.UNCLASSIFIED_ERROR);
         }
     }
 
@@ -52,15 +50,13 @@ public class MemberController {
     public BaseResponse<MemberResponseDto> getMemberById(@PathVariable Integer id) {
         try {
             MemberResponseDto member = memberService.getMemberById(id);
-            return BaseResponse.of(true, null, null, member);
+            return BaseResponse.success(member);
         } catch (CustomException e) {
             log.warn(e.getMessage(), e);
-            return BaseResponse.of(false, e.getType().getType(), e.getType().getDesc(), null);
+            return BaseResponse.failure(e.getType());
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
-            return BaseResponse.of(false,
-                ExceptionType.UNCLASSIFIED_ERROR.getType(),
-                ExceptionType.UNCLASSIFIED_ERROR.getDesc(), null);
+            return BaseResponse.failure(ExceptionType.UNCLASSIFIED_ERROR);
         }
     }
 
