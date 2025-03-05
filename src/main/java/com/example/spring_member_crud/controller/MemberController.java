@@ -34,30 +34,15 @@ public class MemberController {
 
     @PostMapping(value = "")
     public BaseResponse<MemberResponseDto> create(@RequestBody @Validated MemberCreateRequestDto dto) {
-        try {
-            MemberResponseDto member = memberService.create(dto);
-            return BaseResponse.success(member);
-        } catch (CustomException e) {
-            log.warn(e.getMessage(), e); //Exception 예외 처리에서 가장 중요한것은 Logging 로깅
-            return BaseResponse.failure(e.getType());
-        } catch (Exception e) {
-            log.warn(e.getMessage(), e);
-            return BaseResponse.failure(ExceptionType.UNCLASSIFIED_ERROR);
-        }
+        // 중앙 예외 처리로 인해, try-catch 삭제. success 로직만 구현.
+        MemberResponseDto member = memberService.create(dto);
+        return BaseResponse.success(member);
     }
 
     @GetMapping(value = "/{id}")
     public BaseResponse<MemberResponseDto> getMemberById(@PathVariable Integer id) {
-        try {
-            MemberResponseDto member = memberService.getMemberById(id);
-            return BaseResponse.success(member);
-        } catch (CustomException e) {
-            log.warn(e.getMessage(), e);
-            return BaseResponse.failure(e.getType());
-        } catch (Exception e) {
-            log.warn(e.getMessage(), e);
-            return BaseResponse.failure(ExceptionType.UNCLASSIFIED_ERROR);
-        }
+        MemberResponseDto member = memberService.getMemberById(id);
+        return BaseResponse.success(member);
     }
 
     @GetMapping(value = "")
